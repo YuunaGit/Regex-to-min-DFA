@@ -5,7 +5,7 @@ public class REtoDFA {
         var RE = new RE();
 
         System.out.println("Complete Regex");
-        var completeRegex = RE.toRE(regex.toCharArray());
+        var completeRegex = RE.addJoinSym(regex.toCharArray());
         completeRegex.forEach(System.out::print);
         System.out.println();
 
