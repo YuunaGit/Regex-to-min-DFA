@@ -23,9 +23,11 @@ public class RE {
         for (int i = 1; i < input.length; i++) {
             char leftChar = RE.get(RE.size() - 1);
             char rightChar = input[i];
-            if ((isLetter(leftChar)) && (isLetter(rightChar) || rightChar == '(')
-                    || (leftChar == '*') && (isLetter(rightChar) || rightChar == '(')
-                    || (leftChar == ')') && (isLetter(rightChar))) {
+            if (
+                (isLetter(leftChar) && (isLetter(rightChar) || rightChar == '('))
+                || (leftChar == '*' && (isLetter(rightChar) || rightChar == '('))
+                || (leftChar == ')' && isLetter(rightChar))
+            ) {
                 RE.add('·');
             }
             RE.add(rightChar);
