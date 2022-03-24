@@ -17,7 +17,7 @@ public class RE {
         };
     }
 
-    public ArrayList<Character> toRE(char[] regex) {
+    public ArrayList<Character> addJoinSym(char[] regex) {
         ArrayList<Character> RE = new ArrayList<>();
         RE.add(regex[0]);
         for (char rightChar : regex) {
