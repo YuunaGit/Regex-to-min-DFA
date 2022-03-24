@@ -61,23 +61,20 @@ public class DFA {
     }
 
     public TreeSet<Integer> getClosure(TreeSet<Integer> someStates) {
-        TreeSet<Integer> DFAnewStateCount = new TreeSet<>();
+        TreeSet<Integer> DFAnewStates = new TreeSet<>();
         Stack<Integer> flagState = new Stack<>();
-        for (int s : someStates) {
-            DFAnewStateCount.add(s);
-            flagState.push(s);
-        }
+        DFAnewStates.addAll(someStates);
+        flagState.addAll(someStates);
         while (!flagState.isEmpty()) {
             if (NFA.func[flagState.peek()][0].isEmpty()) {
                 flagState.pop();
             } else {
-                for (int from : NFA.func[flagState.pop()][0]) {
-                    DFAnewStateCount.add(from);
-                    flagState.push(from);
-                }
+                int from = flagState.pop();
+                DFAnewStates.addAll(NFA.func[from][0]);
+                flagState.addAll(NFA.func[from][0]);
             }
         }
-        return DFAnewStateCount;
+        return DFAnewStates;
     }
 
     public void print() {
