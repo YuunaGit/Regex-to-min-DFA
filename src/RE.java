@@ -20,8 +20,9 @@ public class RE {
     public ArrayList<Character> addJoinSym(char[] regex) {
         ArrayList<Character> RE = new ArrayList<>();
         RE.add(regex[0]);
-        for (char rightChar : regex) {
+        for (int i = 1; i < regex.length; i++) {
             char leftChar = RE.get(RE.size() - 1);
+            char rightChar = regex[i];
             if(
                 ((isLetter(leftChar) || leftChar == '*' || leftChar == ')')
                 && (isLetter(rightChar) || rightChar == '('))
