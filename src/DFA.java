@@ -14,7 +14,7 @@ public class DFA {
     // a finite set of input symbols
     public ArrayList<Character> alphabet = new ArrayList<>();
     // a transition function
-    public Integer func[][];
+    public Integer[][] func;
     // a start state
     public int startState;
     // a set of accept states
