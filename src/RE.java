@@ -33,10 +33,10 @@ public class RE {
         return RE;
     }
 
-    public ArrayList<Character> toRPN(ArrayList<Character> RE) {
+    public ArrayList<Character> toPostfix(ArrayList<Character> regex) {
         ArrayList<Character> RPN = new ArrayList<>();
         Stack<Character> symStack = new Stack<>();
-        for (char c : RE) {
+        for (char c : regex) {
             if (isLetter(c)) {
                 RPN.add(c);
             } else {
