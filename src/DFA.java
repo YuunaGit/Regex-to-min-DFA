@@ -28,15 +28,14 @@ public class DFA {
         // init function
         func = new Integer[NFA.states][alphabet.size()];
 
-        TreeSet<Integer> flagStates = new TreeSet<>();
+        Stack<Integer> flagStatesStack = new Stack<>();
 
         TreeSet<Integer> newStartState = getClosure(NFA.startStates);
-
         newOldStatesFunc.add(newStartState);
-        flagStates.add(0);
+        flagStatesStack.add(0);
 
-        while (!flagStates.isEmpty()) {
-            int aState = flagStates.pollFirst();
+        while (!flagStatesStack.isEmpty()) {
+            int aState = flagStatesStack.pop();
             for (int input = 0; input < alphabet.size(); input++) {
                 TreeSet<Integer> J = new TreeSet<>();
                 for (int from : newOldStatesFunc.get(aState)) {
@@ -46,7 +45,7 @@ public class DFA {
                     TreeSet<Integer> U = getClosure(J);
                     if (!newOldStatesFunc.contains(U)) {
                         newOldStatesFunc.add(U);
-                        flagStates.add(newOldStatesFunc.indexOf(U));
+                        flagStatesStack.add(newOldStatesFunc.indexOf(U));
                     }
                     func[aState][input] = newOldStatesFunc.indexOf(U);
                 }
@@ -62,16 +61,16 @@ public class DFA {
 
     public TreeSet<Integer> getClosure(TreeSet<Integer> someStates) {
         TreeSet<Integer> DFAnewStates = new TreeSet<>();
-        Stack<Integer> flagState = new Stack<>();
+        Stack<Integer> flagStatesStack = new Stack<>();
         DFAnewStates.addAll(someStates);
-        flagState.addAll(someStates);
-        while (!flagState.isEmpty()) {
-            if (NFA.func[flagState.peek()][0].isEmpty()) {
-                flagState.pop();
+        flagStatesStack.addAll(someStates);
+        while (!flagStatesStack.isEmpty()) {
+            if (NFA.func[flagStatesStack.peek()][0].isEmpty()) {
+                flagStatesStack.pop();
             } else {
-                int from = flagState.pop();
+                int from = flagStatesStack.pop();
                 DFAnewStates.addAll(NFA.func[from][0]);
-                flagState.addAll(NFA.func[from][0]);
+                flagStatesStack.addAll(NFA.func[from][0]);
             }
         }
         return DFAnewStates;
@@ -82,7 +81,6 @@ public class DFA {
         for (int i = 0; i < states; i++) {
             System.out.println(i + ": " + newOldStatesFunc.get(i));
         }
-
         System.out.print("\nDFA: (Q, ∑, F, S, Z)\nQ = [0 ~ " + states + "]\n∑ = " + alphabet + "\nS = [" + startState
                 + "]\nZ = " + acceptStates + "\nF = │ State\\Input │ ");
         for (char c : alphabet) {
