@@ -59,11 +59,13 @@ public class DFA {
         }
     }
 
-    public TreeSet<Integer> getClosure(TreeSet<Integer> someStates) {
-        TreeSet<Integer> DFAnewStates = new TreeSet<>();
-        Stack<Integer> flagStatesStack = new Stack<>();
-        DFAnewStates.addAll(someStates);
-        flagStatesStack.addAll(someStates);
+    private TreeSet<Integer> getClosure(TreeSet<Integer> someStates) {
+        TreeSet<Integer> DFAnewStates = new TreeSet<>() {{
+                addAll(someStates);
+        }};
+        Stack<Integer> flagStatesStack = new Stack<>() {{
+            addAll(someStates);
+        }};
         while (!flagStatesStack.isEmpty()) {
             if (NFA.func[flagStatesStack.peek()][0].isEmpty()) {
                 flagStatesStack.pop();
