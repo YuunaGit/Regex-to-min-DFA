@@ -60,7 +60,7 @@ public class DFA {
 
     private TreeSet<Integer> getClosure(TreeSet<Integer> someStates) {
         TreeSet<Integer> DFAnewStates = new TreeSet<>() {{
-                addAll(someStates);
+            addAll(someStates);
         }};
         Stack<Integer> flagStatesStack = new Stack<>() {{
             addAll(someStates);
