@@ -29,10 +29,9 @@ public class DFA {
         func = new Integer[NFA.states][alphabet.size()];
 
         Stack<Integer> flagStatesStack = new Stack<>();
-
-        TreeSet<Integer> newStartState = getClosure(NFA.startStates);
-        newOldStatesFunc.add(newStartState);
         flagStatesStack.add(0);
+
+        newOldStatesFunc.add(getClosure(NFA.startStates));
 
         while (!flagStatesStack.isEmpty()) {
             int aState = flagStatesStack.pop();
