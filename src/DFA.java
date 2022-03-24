@@ -81,7 +81,7 @@ public class DFA {
         for (int i = 0; i < states; i++) {
             System.out.println(i + ": " + newOldStatesFunc.get(i));
         }
-        System.out.print("\nDFA: (Q, ∑, F, S, Z)\nQ = [0 ~ " + states + "]\n∑ = " + alphabet + "\nS = [" + startState
+        System.out.print("\nDFA: (Q, ∑, F, S, Z)\nQ = [0 ~ " + (states - 1) + "]\n∑ = " + alphabet + "\nS = [" + startState
                 + "]\nZ = " + acceptStates + "\nF = │ State\\Input │ ");
         for (char c : alphabet) {
             System.out.printf("%4s │", c);
