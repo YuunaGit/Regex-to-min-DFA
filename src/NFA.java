@@ -3,33 +3,36 @@ import java.util.Stack;
 import java.util.TreeSet;
 
 public class NFA {
-    // An NFA is a 5-tuple (Q, ∑, F, S, Z)
-    // a finite set of states
+    // set of states, [0, states]
     public int states;
-    // a finite set of input symbols
+    // set of input symbols
     public ArrayList<Character> alphabet = new ArrayList<>();
-    // a transition function
+    // transition function
     public ArrayList<Integer>[][] func;
-    // a set of start states
+    // set of start states
     public TreeSet<Integer> startStates = new TreeSet<>();
-    // a set of accept states
+    // set of accept states
     public TreeSet<Integer> acceptStates = new TreeSet<>();
 
     private boolean isLetter(char c) {
         return (c != '(' && c != ')' && c != '*' && c != '|' && c != '·');
     }
 
+    /**
+     * Construct NFA from postfix regex
+     * @param regex postfix regex
+     */
     @SuppressWarnings("unchecked")
-    public NFA(ArrayList<Character> RPN) {
+    public NFA(ArrayList<Character> regex) {
         // init alphabet, alphabet[0] = $ = empty string
         alphabet.add('$');
-        for (char c : RPN) {
+        for (char c : regex) {
             if (isLetter(c) && !alphabet.contains(c)) {
                 alphabet.add(c);
             }
         }
         // get NFA states count, init states
-        for (char c : RPN) {
+        for (char c : regex) {
             if (isLetter(c) || c == '|' || c == '*') {
                 states += 2;
             }
@@ -42,44 +45,44 @@ public class NFA {
             }
         }
         // generate NFA
-        Stack<Integer> startStatesStack = new Stack<>();
-        Stack<Integer> endStatesStack = new Stack<>();
+        Stack<Integer> S1 = new Stack<>();
+        Stack<Integer> S2 = new Stack<>();
         int newState = 0;
-        for (char c : RPN) {
+        for (char c : regex) {
             if (isLetter(c)) {
                 int start = newState++;
                 int end = newState++;
                 func[start][alphabet.indexOf(c)].add(end);
-                startStatesStack.push(start);
-                endStatesStack.push(end);
+                S1.push(start);
+                S2.push(end);
             } else if (c == '·') {
-                int temp = endStatesStack.pop();
-                int start = endStatesStack.pop();
-                endStatesStack.push(temp);
-                int end = startStatesStack.pop();
+                int temp = S2.pop();
+                int start = S2.pop();
+                S2.push(temp);
+                int end = S1.pop();
                 func[start][0].add(end);
             } else if (c == '|') {
                 int start = newState++;
                 int end = newState++;
-                func[start][0].add(startStatesStack.pop());
-                func[start][0].add(startStatesStack.pop());
-                func[endStatesStack.pop()][0].add(end);
-                func[endStatesStack.pop()][0].add(end);
-                startStatesStack.push(start);
-                endStatesStack.push(end);
+                func[start][0].add(S1.pop());
+                func[start][0].add(S1.pop());
+                func[S2.pop()][0].add(end);
+                func[S2.pop()][0].add(end);
+                S1.push(start);
+                S2.push(end);
             } else if (c == '*') {
                 int start = newState++;
                 int end = newState++;
                 func[start][0].add(end);
-                func[endStatesStack.peek()][0].add(startStatesStack.peek());
-                func[start][0].add(startStatesStack.pop());
-                func[endStatesStack.pop()][0].add(end);
-                startStatesStack.push(start);
-                endStatesStack.push(end);
+                func[S2.peek()][0].add(S1.peek());
+                func[start][0].add(S1.pop());
+                func[S2.pop()][0].add(end);
+                S1.push(start);
+                S2.push(end);
             }
         }
-        startStates.add(startStatesStack.pop());
-        acceptStates.add(endStatesStack.pop());
+        startStates.add(S1.pop());
+        acceptStates.add(S2.pop());
     }
 
     public void print() {
