@@ -17,12 +17,11 @@ public class RE {
         };
     }
 
-    public ArrayList<Character> toRE(char[] input) {
+    public ArrayList<Character> toRE(char[] regex) {
         ArrayList<Character> RE = new ArrayList<>();
-        RE.add(input[0]);
-        for (int i = 1; i < input.length; i++) {
+        RE.add(regex[0]);
+        for (char rightChar : regex) {
             char leftChar = RE.get(RE.size() - 1);
-            char rightChar = input[i];
             if(
                 ((isLetter(leftChar) || leftChar == '*' || leftChar == ')')
                 && (isLetter(rightChar) || rightChar == '('))
