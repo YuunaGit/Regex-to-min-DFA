@@ -8,18 +8,21 @@ public class DFA {
 
     ArrayList<TreeSet<Integer>> newOldStatesFunc = new ArrayList<>();
 
-    // An NFA is a 5-tuple (Q, ∑, F, S, Z)
-    // a finite set of states
+    // set of states
     public int states;
-    // a finite set of input symbols
+    // set of input symbols
     public ArrayList<Character> alphabet = new ArrayList<>();
-    // a transition function
+    // transition function
     public Integer[][] func;
-    // a start state
+    // start state
     public int startState;
-    // a set of accept states
+    // set of accept states
     public TreeSet<Integer> acceptStates = new TreeSet<>();
 
+    /**
+     * Construct DFA from NFA
+     * @param nfa NFA
+     */
     public DFA(NFA nfa) {
         NFA = nfa;
         // init alphabet, remove alphabet[0] = empty string
