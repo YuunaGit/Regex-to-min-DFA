@@ -9,7 +9,7 @@ public class NFA {
     // a finite set of input symbols
     public ArrayList<Character> alphabet = new ArrayList<>();
     // a transition function
-    public ArrayList<Integer> func[][];
+    public ArrayList<Integer>[][] func;
     // a set of start states
     public TreeSet<Integer> startStates = new TreeSet<>();
     // a set of accept states
