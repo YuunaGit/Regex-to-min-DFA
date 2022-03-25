@@ -1,23 +1,38 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 public class REtoDFA {
-    public static void main(String[] args) {
-        char[] regex = "(ab)*(a*|b*)(ba)*".toCharArray();
+    public static void main(String[] args) throws FileNotFoundException {
+        char[] regex = "(a|b)*abb(a|b)*ab".toCharArray();
 
         var RE = new RE();
 
-        System.out.println("Complete Regex:");
+        long now = System.currentTimeMillis();
+        // 1.
         var completeRegex = RE.addJoinSym(regex);
-        completeRegex.forEach(System.out::print);
-        System.out.println();
-
-        System.out.println("Postfix Regex:");
+        // 2.
         var postfixRegex = RE.toPostfix(completeRegex);
-        postfixRegex.forEach(System.out::print);
-        System.out.println();
-
+        // 3.
         var NFA = new NFA(postfixRegex);
-        NFA.print();
-
+        // 4.
         var DFA = new DFA(NFA);
-        DFA.print();
+        // 5.
+        var MinDFA = new MinDFA(DFA);
+
+        System.out.println((System.currentTimeMillis() - now) + "ms");
+
+        File f = new File("Regex-to-min-DFA\\src\\result.txt");
+
+        try (PrintWriter pw = new PrintWriter(f)) {
+            pw.println("Complete Regex:");
+            completeRegex.forEach(pw::print);
+            pw.println("\n\nPostfix Regex:");
+            postfixRegex.forEach(pw::print);
+            pw.println();
+            pw.println(NFA);
+            pw.println(DFA);
+            pw.println(MinDFA);
+        }
     }
 }
