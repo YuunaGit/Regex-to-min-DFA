@@ -3,7 +3,7 @@ import java.util.Stack;
 import java.util.TreeSet;
 
 public class NFA {
-    // set of states, [0, states]
+    // count of states, [0, states)
     public int states;
     // set of input symbols
     public ArrayList<Character> alphabet = new ArrayList<>();
@@ -24,19 +24,19 @@ public class NFA {
      */
     @SuppressWarnings("unchecked")
     public NFA(ArrayList<Character> regex) {
-        // init alphabet, alphabet[0] = $ = empty string
+        // alphabet[0] = $ = empty string
         alphabet.add('$');
         for (char c : regex) {
+            // init alphabet
             if (isLetter(c) && !alphabet.contains(c)) {
                 alphabet.add(c);
             }
-        }
-        // get NFA states count, init states
-        for (char c : regex) {
+            // get NFA states count, init states
             if (isLetter(c) || c == '|' || c == '*') {
                 states += 2;
             }
         }
+
         // init function
         func = new ArrayList[states][alphabet.size()];
         for (int i = 0; i < states; i++) {
@@ -44,7 +44,8 @@ public class NFA {
                 func[i][j] = new ArrayList<>(2);
             }
         }
-        // generate NFA
+
+        // construct NFA
         Stack<Integer> S1 = new Stack<>();
         Stack<Integer> S2 = new Stack<>();
         int newState = 0;
@@ -85,18 +86,26 @@ public class NFA {
         acceptStates.add(S2.pop());
     }
 
-    public void print() {
-        System.out.print("NFA: (Q, ∑, F, S, Z)\nQ = [0 ~ " + (states - 1) + "]\n∑ = " + alphabet + "\nS = "
-                + startStates + "\nZ = " + acceptStates + "\nF = │ State\\Input │ ");
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append("\nNFA: (Q, ∑, F, S, Z)\nQ = [0 ~ ");
+        s.append(states - 1);
+        s.append("]\n∑ = ");
+        s.append(alphabet);
+        s.append("\nS = ");
+        s.append(startStates);
+        s.append("\nZ = ");
+        s.append(acceptStates);
+        s.append("\nF = │ State\\Input │ ");
         for (char c : alphabet) {
-            System.out.printf("%8s │", c);
+            s.append(String.format("%8s │", c));
         }
         for (int from = 0; from < states; from++) {
-            System.out.printf("\n    │%8d     │ ", from);
+            s.append(String.format("\n\t│%8d     │ ", from));
             for (int input = 0; input < alphabet.size(); input++) {
-                System.out.printf("%8s │", func[from][input].isEmpty() ? "" : func[from][input]);
+                s.append(String.format("%8s │", func[from][input].isEmpty() ? "" : func[from][input]));
             }
         }
-        System.out.println();
+        return s.toString();
     }
 }
