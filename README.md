@@ -1,2 +1,3 @@
-# Regular-expression-to-min-DFA
+Input regular expression 
+Transform it into min DFA
  
