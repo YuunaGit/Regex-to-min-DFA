@@ -159,7 +159,7 @@ public class MinDFA {
             s.append(String.format("%4s │", c));
         }
         for (int from = 0; from < states; from++) {
-            s.append(String.format("\n\t│%8d     │ ", from));
+            s.append(String.format("\n    │%8d     │ ", from));
             for (int input = 0; input < alphabet.size(); input++) {
                 s.append(String.format("%4s │", func[from][input] == null ? "" : func[from][input]));
             }
