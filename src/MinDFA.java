@@ -108,11 +108,11 @@ public class MinDFA {
 
         // generate new function
         newOldStatesFunc.sort(Comparator.comparingInt(TreeSet::first));
-        for(int from = 0; from < states; from++) {
-            for(int input = 0; input < alphabet.size(); input++) {
+        for (int from = 0; from < states; from++) {
+            for (int input = 0; input < alphabet.size(); input++) {
                 int oldFrom = newOldStatesFunc.get(from).first();
                 Integer oldTo = DFA.func[oldFrom][input];
-                if(oldTo != null) {
+                if (oldTo != null) {
                     for (TreeSet<Integer> to : newOldStatesFunc) {
                         if (to.contains(oldTo)) {
                             func[from][input] = newOldStatesFunc.indexOf(to);
@@ -124,9 +124,9 @@ public class MinDFA {
         }
 
         // generate new accept states
-        for(TreeSet<Integer> s : newOldStatesFunc) {
-            for(Integer a : DFA.acceptStates) {
-                if(s.contains(a)) {
+        for (TreeSet<Integer> s : newOldStatesFunc) {
+            for (Integer a : DFA.acceptStates) {
+                if (s.contains(a)) {
                     acceptStates.add(newOldStatesFunc.indexOf(s));
                     break;
                 }
@@ -141,20 +141,10 @@ public class MinDFA {
         StringBuilder s = new StringBuilder();
         s.append("\nNew states old states function:\n");
         for (int i = 0; i < states; i++) {
-            s.append(i);
-            s.append(": ");
-            s.append(newOldStatesFunc.get(i));
-            s.append("\n");
+            s.append(i + ": " + newOldStatesFunc.get(i) + "\n");
         }
-        s.append("\nDFA: (Q, ∑, F, S, Z)\nQ = [0 ~ ");
-        s.append(states - 1);
-        s.append("]\n∑ = ");
-        s.append(alphabet);
-        s.append("\nS = [");
-        s.append(startState);
-        s.append("]\nZ = ");
-        s.append(acceptStates);
-        s.append("\nF = │ State\\Input │ ");
+        s.append("\nDFA: (Q, ∑, F, S, Z)\nQ = [0 ~ " + (states - 1) + "]\n∑ = " + alphabet + "\nS = [" + startState
+                + "]\nZ = " + acceptStates + "\nF = │ State\\Input │ ");
         for (char c : alphabet) {
             s.append(String.format("%4s │", c));
         }
