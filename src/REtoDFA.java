@@ -8,19 +8,16 @@ public class REtoDFA {
 
         var RE = new RE();
 
-        long now = System.currentTimeMillis();
-        // 1.
+        // 1
         var completeRegex = RE.addJoinSym(regex);
-        // 2.
+        // 2
         var postfixRegex = RE.toPostfix(completeRegex);
-        // 3.
+        // 3
         var NFA = new NFA(postfixRegex);
-        // 4.
+        // 4
         var DFA = new DFA(NFA);
-        // 5.
+        // 5
         var MinDFA = new MinDFA(DFA);
-
-        System.out.println((System.currentTimeMillis() - now) + "ms");
 
         File f = new File("Regex-to-min-DFA\\src\\result.txt");
 
