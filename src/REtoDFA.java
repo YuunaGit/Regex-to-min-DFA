@@ -31,5 +31,7 @@ public class REtoDFA {
             pw.println(DFA);
             pw.println(MinDFA);
         }
+
+        System.out.println("End");
     }
 }
