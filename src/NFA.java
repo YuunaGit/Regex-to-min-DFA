@@ -20,6 +20,7 @@ public class NFA {
 
     /**
      * Construct NFA from postfix regex
+     * 
      * @param regex postfix regex
      */
     @SuppressWarnings("unchecked")
@@ -88,15 +89,8 @@ public class NFA {
 
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append("\nNFA: (Q, ∑, F, S, Z)\nQ = [0 ~ ");
-        s.append(states - 1);
-        s.append("]\n∑ = ");
-        s.append(alphabet);
-        s.append("\nS = ");
-        s.append(startStates);
-        s.append("\nZ = ");
-        s.append(acceptStates);
-        s.append("\nF = │ State\\Input │ ");
+        s.append("\nNFA: (Q, ∑, F, S, Z)\nQ = [0 ~ " + (states - 1) + "]\n∑ = " + alphabet + "\nS = " + startStates
+                + "\nZ = " + acceptStates + "\nF = │ State\\Input │ ");
         for (char c : alphabet) {
             s.append(String.format("%8s │", c));
         }
